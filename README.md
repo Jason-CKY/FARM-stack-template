@@ -1,12 +1,12 @@
-# Data Labelling Platform
+# FARM stack developer environment
 
-This repo contains the source code for a custom data labelling web application. It uses the [label-studio frontend library](https://github.com/heartexlabs/label-studio-frontend), with a custom FastAPI backend.
+This repo contains the template code for a FARM (FastAPI, React, Mongo-db) stack for a web application to start off with.
 
 ## Tech-Stack
 
 ### Front-end
 
-Front-end is created using [Create-React-App](https://create-react-app.dev/), with Typescript template. 
+Front-end is created using [Create-React-App](https://create-react-app.dev/), with Typescript template.
 
 ### Back-end
 
@@ -15,3 +15,9 @@ Back-end is written in Python using [FastAPI](https://fastapi.tiangolo.com/).
 ### Database
 
 Data is stored using [MongoDB](https://www.mongodb.com/), and [Minio](https://min.io/) as the object storage.
+
+## Useful VSCode extensions
+
+* Prettier
+* Babel Javascript
+* ES7+ React/Redux/React-Native snippets

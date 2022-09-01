@@ -3,6 +3,7 @@ version: '3.9'
 services:
   mongo:
     image: mongo
+    container_name: mongodb
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
@@ -11,8 +12,10 @@ services:
       - mongodb:/data/db
     ports:
       - "27017:27017"
+
   mongo-express:
     image: mongo-express
+    container_name: mongo-express
     restart: always
     ports:
       - 8081:8081
@@ -25,10 +28,12 @@ services:
     build:
       context: .
       dockerfile: ./deploy/backend/Dockerfile
+      target: dev
+    container_name: fastapi
     volumes:
-      - './backend:/app'
+      - ./backend:/app
     ports:
-      - 8000:8000
+      - 8000:80
     environment:
       RELOAD: true
       MONGODB_HOST: mongo
@@ -37,14 +42,16 @@ services:
       MONGODB_PASSWORD: ${MONGO_PASSWORD}
       PYTHONPATH: /app
       
-  # react:
-  #   build:
-  #     context: ./
-  #     dockerfile: react.dockerfile
-  #   volumes:
-  #     - './farm-react:/app'
-  #   ports:
-  #     - 3000:3000
+  react:
+    build:
+      context: .
+      dockerfile: ./deploy/frontend/Dockerfile
+      target: dev
+    container_name: react
+    volumes:
+      - ./frontend:/app
+    ports:
+      - 3000:3000
 
 volumes:
   mongodb: {}

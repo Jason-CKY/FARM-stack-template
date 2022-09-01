@@ -26,8 +26,8 @@ pyflakes:		## Pyflakes check for any unused variables/classes
 	/bin/bash -c "pip install --upgrade pyflakes && python -m pyflakes /src && echo 'pyflakes passed!'"
 
 
-.PHONY: deploy
-deploy:		## deploy api with models in mlflow and monitoring deployed
+.PHONY: start
+start:		## deploy api with models in mlflow and monitoring deployed
 	docker-compose --env-file config/database.env up -d
 
 .PHONY: stop
