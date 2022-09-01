@@ -21,5 +21,30 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
       ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongo:27017/
 
+  fastapi:
+    build:
+      context: .
+      dockerfile: ./deploy/backend/Dockerfile
+    volumes:
+      - './backend:/app'
+    ports:
+      - 8000:8000
+    environment:
+      RELOAD: true
+      MONGODB_HOST: mongo
+      MONGODB_PORT: 27017
+      MONGODB_USER: ${MONGO_USER}
+      MONGODB_PASSWORD: ${MONGO_PASSWORD}
+      PYTHONPATH: /app
+      
+  # react:
+  #   build:
+  #     context: ./
+  #     dockerfile: react.dockerfile
+  #   volumes:
+  #     - './farm-react:/app'
+  #   ports:
+  #     - 3000:3000
+
 volumes:
   mongodb: {}

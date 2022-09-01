@@ -1,0 +1,9 @@
+fastapi
+pydantic
+uvicorn
+python-multipart
+aiofiles
+
+# Monitoring
+prometheus-fastapi-instrumentator
+prometheus_client
