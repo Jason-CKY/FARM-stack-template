@@ -1,4 +1,4 @@
-FROM node:18 as dev
+FROM node:16-buster as dev
 
 COPY ./frontend /app
 WORKDIR /app

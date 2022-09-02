@@ -3,9 +3,9 @@ from fastapi import FastAPI
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from starlette.requests import Request
-
+from app.core.database import client as mongodb_client
 from app.core.settings import settings
+from app.routers import todo
 
 app = FastAPI(
     title=settings.app_name,
@@ -15,10 +15,7 @@ app = FastAPI(
     redoc_url=None
 )
 
-origins = [
-    "http://0.0.0.0:3000",
-    "http://localhost:3000"
-]
+origins = ["https://localhost:3000"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -28,11 +25,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount(
-    '/static',
-    StaticFiles(directory=Path(__file__).parent / 'static'),
-    name='static'
-)
+
+
+@app.on_event("shutdown")
+async def shutdown_db_client():
+    mongodb_client.close()
 
 
 @app.get("/", include_in_schema=False)
@@ -43,8 +40,12 @@ def custom_docs():
         swagger_favicon_url='/static/logo.png'
     )
 
-@app.post("/query")
-def query(request: Request):
-    data = {"success": False}
-    return data
-    
+
+app.include_router(todo.router, prefix="/api/v1")
+
+# serve all files in /static/*
+app.mount(
+    '/static',
+    StaticFiles(directory=Path(__file__).parent / 'static'),
+    name='static'
+)

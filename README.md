@@ -21,3 +21,8 @@ Data is stored using [MongoDB](https://www.mongodb.com/), and [Minio](https://mi
 * Prettier
 * Babel Javascript
 * ES7+ React/Redux/React-Native snippets
+
+## Useful Links
+
+* https://www.mongodb.com/community/forums/t/when-to-close-pymongo-client/161623/2
+* https://www.mongodb.com/developer/languages/python/farm-stack-fastapi-react-mongodb/

@@ -35,12 +35,11 @@ services:
     ports:
       - 8000:80
     environment:
-      RELOAD: true
+      RELOAD: 'true'
       MONGODB_HOST: mongo
-      MONGODB_PORT: 27017
+      MONGODB_PORT: '27017'
       MONGODB_USER: ${MONGO_USER}
       MONGODB_PASSWORD: ${MONGO_PASSWORD}
-      PYTHONPATH: /app
       
   react:
     build:
