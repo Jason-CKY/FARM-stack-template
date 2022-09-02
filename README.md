@@ -16,6 +16,14 @@ Back-end is written in Python using [FastAPI](https://fastapi.tiangolo.com/).
 
 Data is stored using [MongoDB](https://www.mongodb.com/), and [Minio](https://min.io/) as the object storage.
 
+#### Pagination for mongodb
+
+Add a `limit` and `skip` parameters to the bulk `get` request, and use them in the filtering function of the database instead of fetching all the documents from the database and limiting them in the application.
+
+* https://stackoverflow.com/questions/67571946/how-to-implement-pagination-for-fastapi-with-mongo-dbmotor
+* https://www.codementor.io/@arpitbhayani/fast-and-efficient-pagination-in-mongodb-9095flbqr
+* https://medium.com/swlh/mongodb-pagination-fast-consistent-ece2a97070f3
+
 ## Useful VSCode extensions
 
 * Prettier
