@@ -29,6 +29,7 @@ Add a `limit` and `skip` parameters to the bulk `get` request, and use them in t
 * Prettier
 * Babel Javascript
 * ES7+ React/Redux/React-Native snippets
+* Typescript React code snippets
 
 ## Useful Links
 

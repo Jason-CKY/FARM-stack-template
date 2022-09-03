@@ -4,6 +4,7 @@ import { LayoutComponent } from './components/Layout';
 import { AboutPage } from './pages/About';
 import { HomePage } from './pages/Home';
 import { NumberPage } from './pages/Number';
+import { Todo } from './pages/Todo';
 
 export interface IApplicationProps {}
 
@@ -13,6 +14,7 @@ export function Application(props: IApplicationProps) {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="about" element={<AboutPage />} />
+                <Route path="todo" element={<Todo />} />
                 <Route path="number">
                     <Route index element={<NumberPage />} />
                     <Route path=":number" element={<NumberPage />} />
