@@ -13,7 +13,7 @@ export function NumberPage(props: INumberPageProps) {
         } else {
             setMessage('Number is not set');
         }
-    }, []);
+    }, [number]);
     return (
         <div>
             <p>This is the number page.</p>

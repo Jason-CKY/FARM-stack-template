@@ -51,6 +51,8 @@ services:
       - ./frontend:/app
     ports:
       - 3000:3000
+    environment:
+      GENERATE_SOURCEMAP: "false"   # https://github.com/facebook/create-react-app/pull/11752
 
 volumes:
   mongodb: {}

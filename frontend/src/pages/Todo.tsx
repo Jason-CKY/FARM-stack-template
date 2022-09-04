@@ -6,7 +6,7 @@ import { CheckCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 
 export interface ITodoProps {}
 
-interface Todo {
+interface ITodo {
     _id: string;
     title: string;
     description: string;
@@ -14,7 +14,7 @@ interface Todo {
 }
 
 export function Todo(props: ITodoProps) {
-    const [todos, setTodos] = React.useState<Todo[]>([]);
+    const [todos, setTodos] = React.useState<ITodo[]>([]);
     const [timeline, setTimeline] = React.useState<JSX.Element[]>([]);
 
     React.useEffect(() => {
@@ -35,11 +35,11 @@ export function Todo(props: ITodoProps) {
         const timelineItems = todos.reverse().map((todo) => {
             return todo.completed ? (
                 <Timeline.Item dot={<CheckCircleOutlined />} color="green" style={{ textDecoration: 'line-through', color: 'green' }}>
-                    {todo.title} {todo.description} <small>({todo._id})</small>
+                    <b>{todo.title}</b> {todo.description} <small>({todo._id})</small>
                 </Timeline.Item>
             ) : (
                 <Timeline.Item dot={<MinusCircleOutlined />} color="blue" style={{ textDecoration: 'initial' }}>
-                    {todo.title} {todo.description} <small>({todo._id})</small>
+                    <b>{todo.title}</b> {todo.description} <small>({todo._id})</small>
                 </Timeline.Item>
             );
         });

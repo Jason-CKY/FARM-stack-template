@@ -1,5 +1,6 @@
 import uuid
 from pydantic import BaseModel, Field
+from typing import Optional
 
 class TodoModel(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
@@ -18,9 +19,9 @@ class TodoModel(BaseModel):
         }
 
 class UpdateTodoModel(BaseModel):
-    title: str = Field(...)
-    description: str = Field(...)
-    completed: bool = False
+    title: Optional[str]
+    description: Optional[str]
+    completed: Optional[bool]
 
     class Config:
         schema_extra = {
