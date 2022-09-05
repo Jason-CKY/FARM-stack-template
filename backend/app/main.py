@@ -16,18 +16,6 @@ app = FastAPI(
     redoc_url=None
 )
 
-# origins = ["https://localhost:3000", "http://localhost:3000", "http://localhost:8000", "https://localhost:8000"]
-
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
-
-
 @app.on_event("shutdown")
 async def shutdown_db_client():
     mongodb_client.close()
