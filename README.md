@@ -24,6 +24,22 @@ Add a `limit` and `skip` parameters to the bulk `get` request, and use them in t
 * https://www.codementor.io/@arpitbhayani/fast-and-efficient-pagination-in-mongodb-9095flbqr
 * https://medium.com/swlh/mongodb-pagination-fast-consistent-ece2a97070f3
 
+## Setting up developer environment
+
+Run `make help` for the list of quick Make commands available. This template includes a `docker-compose.yml` file that sets up the FARM stack development environment that watches for changes in both fastapi and react code and re-compiles on the fly. This is a convenient way to get started on the development without installing any npm or python packages.
+
+## Deployment
+
+This template includes production deployment to either docker containers or kubernetes. 
+
+### Docker deployment
+
+`docker-compose --env-file config/database.env -f docker-compose.production.yml up --build -d`
+
+### Kubernetes deployment
+
+`kubectl apply -f ./deploy/kubernetes`
+
 ## Useful VSCode extensions
 
 * Prettier

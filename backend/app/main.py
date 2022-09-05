@@ -11,6 +11,7 @@ app = FastAPI(
     title=settings.app_name,
     description=settings.app_description,
     version=settings.app_version,
+    openapi_url="/api/openapi.json",
     docs_url=None,
     redoc_url=None
 )
@@ -32,7 +33,7 @@ async def shutdown_db_client():
     mongodb_client.close()
 
 
-@app.get("/", include_in_schema=False)
+@app.get("/api", include_in_schema=False)
 def custom_docs():
     return get_swagger_ui_html(
         openapi_url=app.openapi_url,

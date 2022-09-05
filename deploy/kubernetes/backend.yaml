@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  labels:
+    app: farm-template
+    component: backend
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+  selector:
+    app: farm-template
+    component: backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: farm-template
+    component: backend
+  name: farm-template-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: farm-template
+      component: backend
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: farm-template
+        component: backend
+    spec:
+      containers:
+      - image: farm-template:backend
+        name: farm-template-backend
+        resources:
+          requests:
+            cpu: 200m
+            memory: 500m
+          limits:
+            cpu: 500m
+            memory: 1Gi
+        ports:
+          - containerPort: 80
+            name: http
+            protocol: TCP
+        envFrom:
+          - configMapRef:
+              name: app-env

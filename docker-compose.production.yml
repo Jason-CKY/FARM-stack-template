@@ -30,7 +30,6 @@ services:
       dockerfile: ./deploy/backend/Dockerfile
       target: dev
     container_name: fastapi
-    image: farm-template:backend
     volumes:
       - ./backend:/app
     ports:
@@ -42,17 +41,14 @@ services:
       MONGODB_USER: ${MONGO_USER}
       MONGODB_PASSWORD: ${MONGO_PASSWORD}
       
-  react:
+  nginx:
     build:
       context: .
       dockerfile: ./deploy/frontend/Dockerfile
-      target: dev
-    container_name: react
-    image: farm-template:frontend
-    volumes:
-      - ./frontend:/app
+      target: production
+    container_name: nginx
     ports:
       - 3000:3000
-      
+
 volumes:
   mongodb: {}
