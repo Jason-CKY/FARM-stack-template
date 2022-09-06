@@ -2,9 +2,10 @@ import uuid
 from pydantic import BaseModel, Field
 from typing import Optional
 
-class TodoModel(BaseModel):
+class UserModel(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    title: str = Field(...)
+    email: str = Field(...)
+    
     description: str = Field(...)
     completed: bool = False
 
