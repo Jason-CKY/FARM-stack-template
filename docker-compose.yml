@@ -37,6 +37,7 @@ services:
       - 8000:80
     environment:
       RELOAD: 'true'
+      AUTH_SECRET: '9e2eafc85e356114ea5fc5d0077a754a9de157c5dc81d8714696917e25c7cd73'
       MONGODB_HOST: mongo
       MONGODB_PORT: '27017'
       MONGODB_USER: ${MONGO_USER}
@@ -53,6 +54,8 @@ services:
       - ./frontend:/app
     ports:
       - 3000:3000
+    environment:
+      GENERATE_SOURCEMAP: "false"   # https://github.com/facebook/create-react-app/pull/11752
       
 volumes:
   mongodb: {}

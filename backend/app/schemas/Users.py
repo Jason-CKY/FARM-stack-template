@@ -1,35 +1,38 @@
-import uuid
-from pydantic import BaseModel, Field
-from typing import Optional
+from beanie import PydanticObjectId
+from fastapi_users import schemas
 
-class UserModel(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    email: str = Field(...)
-    
-    description: str = Field(...)
-    completed: bool = False
 
-    class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
-            "example": {
-                "title": "Morning task",
-                "description": "Walk the dog",
-                "completed": True
-            }
-        }
+class UserRead(schemas.BaseUser[PydanticObjectId]):
+    """
+        id (ID) Unique identifier of the user. It matches the type of your ID, like UUID or integer.
+        email (str) Email of the user. Validated by email-validator.
+        is_active (bool) Whether or not the user is active. If not, login and forgot password requests will be denied. Defaults to True.
+        is_verified (bool) Whether or not the user is verified. Optional but helpful with the verify router logic. Defaults to False.
+        is_superuser (bool) Whether or not the user is a superuser. Useful to implement administration logic. Defaults to False.
 
-class UpdateTodoModel(BaseModel):
-    title: Optional[str]
-    description: Optional[str]
-    completed: Optional[bool]
+        Modify the below lines to add more fields for the user
+        WARNING: You must also modify the same lines in the
+        UserCreate model below
+    """
+    firstName: str
+    lastName: str
 
-    class Config:
-        schema_extra = {
-            "example": {
-                "title": "Morning task",
-                "description": "Walk the dog",
-                "completed": True
-            }
-        }
 
+class UserCreate(schemas.BaseUserCreate):
+    """
+        Dedicated to user registration, which consists of compulsory email and password fields
+        Modify the below lines to add more fields for the user
+        WARNING: You must also modify the same lines in the
+        User model above
+    """
+    firstName: str
+    lastName: str
+
+
+class UserUpdate(schemas.BaseUserUpdate):
+    """
+        Dedicated to user profile update, which adds an optional password field;
+        This class Extends/Inherits the User class
+    """
+    firstName: str
+    lastName: str

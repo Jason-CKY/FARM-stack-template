@@ -10,6 +10,15 @@ class Settings(BaseSettings):
 
     app_description: str
 
+    # auth
+    auth_secret_key: str = os.getenv(
+        'AUTH_SECRET',
+        'ae7ccace18673a05bc07e170ebcd543091ce3ac51ffde584eb28576796092462'
+    )
+    session_lifetime_seconds: int = int(
+        os.getenv('AUTH_SESSION_LIFETIME_SECONDS', '3600')
+    )
+
     # mongodb connection variables
     mongo_host: str = os.getenv('MONGODB_HOST', 'mongo')
     mongo_port: str = os.getenv('MONGODB_PORT', '27017')

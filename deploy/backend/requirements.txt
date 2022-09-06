@@ -1,4 +1,5 @@
 fastapi >= 0.81.0
+fastapi-users[beanie]
 uvicorn >= 0.14.0
 
 # Full-featured, non-blocking asyncio MongoDB driver 

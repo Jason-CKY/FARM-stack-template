@@ -1,11 +1,16 @@
+from beanie import init_beanie
+from app.schemas.Users import UserCreate, UserRead, UserUpdate
+from app.core.auth import auth_backend, current_active_user, fastapi_users
+from app.database.users import User
+
 from pathlib import Path
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.core.database import client as mongodb_client
+from app.core.database import database as db
 from app.core.settings import settings
-from app.routers import todo
+from app.routers.todo import router as todo_router
 
 app = FastAPI(
     title=settings.app_name,
@@ -15,6 +20,17 @@ app = FastAPI(
     docs_url=None,
     redoc_url=None
 )
+
+
+@app.on_event("startup")
+async def on_startup():
+    await init_beanie(
+        database=db,
+        document_models=[
+            User,
+        ],
+    )
+
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
@@ -30,7 +46,37 @@ def custom_docs():
     )
 
 
-app.include_router(todo.router, prefix="/api/v1")
+@app.get("/")
+def root(user: UserRead = Depends(current_active_user)):
+    return user
+
+
+app.include_router(
+    fastapi_users.get_auth_router(auth_backend),
+    prefix="/auth/jwt",
+    tags=["auth"]
+)
+app.include_router(
+    fastapi_users.get_register_router(UserRead, UserCreate),
+    prefix="/auth",
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users.get_reset_password_router(),
+    prefix="/auth",
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users.get_verify_router(UserRead),
+    prefix="/auth",
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users.get_users_router(UserRead, UserUpdate),
+    prefix="/users",
+    tags=["users"],
+)
+app.include_router(todo_router, prefix="/api/v1", tags=["todo"])
 
 # serve all files in /static/*
 app.mount(
