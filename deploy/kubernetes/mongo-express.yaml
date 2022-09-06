@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mongodb
+    component: mongo-express
+  name: mongo-express
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+      component: mongo-express
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: mongo-express
+    spec:
+      containers:
+      - image: mongo-express:latest
+        name: mongo-express
+        resources:
+          requests:
+            cpu: 200m
+            memory: 500m
+          limits:
+            cpu: 300m
+            memory: 600m
+        ports:
+          - containerPort: 8081
+            name: http
+            protocol: TCP
+        env:
+        - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-creds
+              key: MONGO_USERNAME
+        - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-creds
+              key: MONGO_PASSWORD
+        - name: ME_CONFIG_MONGODB_URL
+          value: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb-service:27017/
