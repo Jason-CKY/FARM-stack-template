@@ -1,6 +1,13 @@
 # FARM stack developer environment
 
-This repo contains the template code for a FARM (FastAPI, React, Mongo-db) stack for a web application to start off with.
+This repo contains the template code for a FARM (FastAPI, React, Mongo-db) stack for a web application to start off with. It contains docker-compose files to quickly setup the stack for development environment without any installation. It includes a todo CRUD operations, as well as user authentication/registration system.
+
+<hr>
+
+## Credits
+
+* This repo uses snippets from [fastapi-react-mongodb](https://github.com/ankushjain2001/fastapi-react-mongodb).
+* The protected-routes authentication component is adapted from [Tyler McGinnis's example](https://ui.dev/react-router-protected-routes-authentication).
 
 <hr>
 
@@ -9,6 +16,7 @@ This repo contains the template code for a FARM (FastAPI, React, Mongo-db) stack
 - **[FastAPI](https://github.com/tiangolo/fastapi)** (backend server)
 - **[FastAPIUsers](https://github.com/frankie567/fastapi-users)** (authentication system)
 - **[React](https://reactjs.org/)** (frontend library)
+- **[Typescript](https://www.typescriptlang.org/)** (typescript library)
 - **[React-Bootstrap](https://github.com/react-bootstrap/react-bootstrap)** (frontend styling library)
 - **[React-Icons](https://github.com/react-icons/react-icons)** (frontend styling library)
 - **[MongoDB](https://github.com/mongodb/mongo)** (database server)
