@@ -1,17 +1,28 @@
 import React, { useState } from 'react';
 
+interface RegisterSuccessResponseInterface {
+    id: string;
+    email: string;
+    is_active: boolean;
+    is_superuser: boolean;
+    is_verified: boolean;
+    firstName: string;
+    lastName: string;
+}
+
 interface LoginSuccessResponseInterface {
     access_token: string;
     token_type: string;
 }
 
-interface LoginFailureResponseInterface {
+interface FailureResponseInterface {
     detail: string;
 }
 
 interface AuthContextInterface {
     isAuthenticated: () => boolean;
-    login: (email: string, password: string) => Promise<LoginSuccessResponseInterface | LoginFailureResponseInterface>;
+    register: (firstName: String, lastName: String, email: String, password: String, passwordConfirmation: String) => Promise<RegisterSuccessResponseInterface | FailureResponseInterface>;
+    login: (email: string, password: string) => Promise<LoginSuccessResponseInterface | FailureResponseInterface>;
     logout: () => Promise<void>;
 }
 
@@ -25,7 +36,59 @@ function useAuth() {
         }
         return permissions === 'user' ? true : false;
     };
-
+    const register = async (firstName: String, lastName: String, email: String, password: String, passwordConfirmation: String) => {
+        // Assert firstName, lastName and phone not empty
+        if (!(firstName.length > 0)) {
+            throw new Error('First Name was not provided');
+        }
+        // Assert firstName, lastName and phone not empty
+        if (!(lastName.length > 0)) {
+            throw new Error('Last Name was not provided');
+        }
+        // Assert email is not empty
+        if (!(email.length > 0)) {
+            throw new Error('Email was not provided');
+        }
+        // Assert password is not empty
+        if (!(password.length > 0)) {
+            throw new Error('Password was not provided');
+        }
+        // Assert password confirmation is not empty
+        if (!(passwordConfirmation.length > 0)) {
+            throw new Error('Password confirmation was not provided');
+        }
+        // Assert email or password or password confirmation is not empty
+        if (password !== passwordConfirmation) {
+            throw new Error('Passwords do not match');
+        }
+        // Create data JSON
+        const formData = {
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName
+        };
+        // Create request
+        const request = new Request('/api/auth/register', {
+            method: 'POST',
+            body: JSON.stringify(formData)
+        });
+        // Fetch request
+        const response = await fetch(request);
+        // 500 error handling
+        if (response.status === 500) {
+            throw new Error('Internal server error');
+        }
+        // 400 error handling
+        const data = await response.json();
+        if (response.status >= 400 && response.status < 500) {
+            if (data.detail) {
+                throw data.detail;
+            }
+            throw data;
+        }
+        return data;
+    };
     const login = async (email: string, password: string) => {
         // Assert email is not empty
         if (!(email.length > 0)) {
@@ -61,8 +124,6 @@ function useAuth() {
         }
         // Successful login handling
         if ('access_token' in data) {
-            // localStorage.setItem('token', data['access_token']);
-            // localStorage.setItem('permissions', 'user');
             localStorage.setItem('token', data['access_token']);
             localStorage.setItem('permissions', 'user');
         }
@@ -79,6 +140,7 @@ function useAuth() {
 
     return {
         isAuthenticated,
+        register,
         login,
         logout
     };

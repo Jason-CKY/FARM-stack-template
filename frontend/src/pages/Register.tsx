@@ -9,7 +9,7 @@ interface LocationStateInterface {
     path: string | null;
 }
 
-export function Login({}: Props) {
+export function Register({}: Props) {
     const navigate = useNavigate();
     const authCtx = useAuth();
 
@@ -26,7 +26,7 @@ export function Login({}: Props) {
         e.preventDefault();
         setError('');
         try {
-            const response = await authCtx?.login(email, password);
+            const response = await authCtx?.register();
             // Executes only when there are no 400 and 500 errors, else they are thrown as errors
             // Callbacks can be added here
             if (response) {
