@@ -1,7 +1,7 @@
-import React, { SyntheticEvent } from 'react';
-import { Navbar, Container, Row, Col, Alert, Tab } from 'react-bootstrap';
+import React from 'react';
+import { Container, Row, Col, Alert, Tab } from 'react-bootstrap';
 import Tabs from 'react-bootstrap/Tabs';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Login } from './Login';
 import { Register } from './Register';
 

@@ -1,15 +1,13 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Alert } from 'react-bootstrap';
 import useAuth from '../hooks/auth';
-
-type Props = {};
 
 interface LocationStateInterface {
     path: string | null;
 }
 
-export function Register({}: Props) {
+export function Register() {
     const navigate = useNavigate();
     const authCtx = useAuth();
 

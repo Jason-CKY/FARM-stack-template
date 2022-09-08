@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/auth';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -14,7 +14,7 @@ export default function NavigationBar() {
     useEffect(() => {
         const fetchUser = async () => {
             const user = await authCtx?.getUser();
-            if (user != undefined && 'firstName' in user) {
+            if (user !== undefined && 'firstName' in user) {
                 setWelcomeMessage(`Welcome, ${user.firstName} ${user.lastName}`);
             } else {
                 setWelcomeMessage('Welcome, Anonymous User');
@@ -22,7 +22,7 @@ export default function NavigationBar() {
         };
 
         fetchUser();
-    }, []);
+    }, [authCtx]);
 
     const handleLogout = async () => {
         await authCtx?.logout();
