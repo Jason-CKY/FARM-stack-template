@@ -32,7 +32,7 @@ export default function NavigationBar() {
         <>
             <Navbar bg="dark" variant="dark">
                 <Container>
-                    <img alt="" src={Logo} width="40" height="40" className="d-inline-block align-top" />
+                    <img alt="" src={Logo} width="40" height="40" className="me-3" />
                     <Navbar.Brand href="/">Home</Navbar.Brand>
                     <Nav className="me-auto">
                         <Nav.Link href="/about">About</Nav.Link>
