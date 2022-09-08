@@ -62,7 +62,7 @@ Run `make help` for the list of quick Make commands available. This template inc
 ![register page](https://user-images.githubusercontent.com/27609953/189017856-4474169b-1b99-4f1e-b91c-65b912e62dd5.png)
 
 ### Todo Page
-![todo page](https://user-images.githubusercontent.com/27609953/189017946-2c37125f-cd48-4d92-8f74-776a44ff6e00.png)
+![Todo Page](https://user-images.githubusercontent.com/27609953/189018393-3882fc86-a26c-4ac8-9bc6-3a94f0cf9ab8.png)
 
 ### Backend Swagger UI
 ![backend swagger UI](https://user-images.githubusercontent.com/27609953/189018000-deba3755-4fc2-4ed5-82df-39c9defa68d3.png)
