@@ -1,5 +1,7 @@
 import logging
-from fastapi import APIRouter, HTTPException, Body, status
+from fastapi import APIRouter, HTTPException, Body, status, Depends
+from app.schemas.Users import UserRead
+from app.core.auth import current_active_user
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from typing import List
@@ -27,7 +29,7 @@ async def post_todo(todo: TodoModel = Body(...)):
     response_model=List[TodoModel],
     response_description="List all Todos"
 )
-async def get_all_todo():
+async def get_all_todo(user: UserRead = Depends(current_active_user)):
     # The list_tasks router is overly simplistic. In a real-world application, you are at the very least going to need to include pagination
     response = await fetch_all_todos()
     return response

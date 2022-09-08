@@ -20,7 +20,14 @@ export function Todo(props: ITodoProps) {
 
     React.useEffect(() => {
         const fetchAllTasks = async () => {
-            const response = await fetch('/api/v1/todo');
+            const token = localStorage.getItem('token');
+            // Create request
+            const request = new Request('/api/v1/todo', {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            // Fetch request
+            const response = await fetch(request);
             const fetchedTodos = await response.json();
             setTodos(fetchedTodos);
         };

@@ -14,8 +14,11 @@ export function Register({}: Props) {
     const authCtx = useAuth();
 
     // User information hook
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const [error, setError] = useState('');
     const location = useLocation();
     const state = location.state as LocationStateInterface;
@@ -26,7 +29,7 @@ export function Register({}: Props) {
         e.preventDefault();
         setError('');
         try {
-            const response = await authCtx?.register();
+            const response = await authCtx?.register(firstName, lastName, email, password, passwordConfirmation);
             // Executes only when there are no 400 and 500 errors, else they are thrown as errors
             // Callbacks can be added here
             if (response) {
@@ -50,19 +53,31 @@ export function Register({}: Props) {
     return (
         <>
             <Form onSubmit={callSubmit}>
-                <Form.Group controlId="formLoginEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.currentTarget.value)} />
+                <Form.Group controlId="formRegisterFirstname">
+                    <Form.Label>First Name</Form.Label>
+                    <Form.Control type="text" placeholder="Enter first name" value={firstName} onChange={(f) => setFirstName(f.currentTarget.value)} />
                 </Form.Group>
-                <Form.Group controlId="formLoginPassword">
+                <Form.Group controlId="formRegisterLastname">
+                    <Form.Label>Last Name</Form.Label>
+                    <Form.Control type="text" placeholder="Enter last name" value={lastName} onChange={(l) => setLastName(l.currentTarget.value)} />
+                </Form.Group>
+                <Form.Group controlId="formRegisterEmail">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.currentTarget.value)} />
+                </Form.Group>
+                <Form.Group controlId="formRegisterPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Enter password" value={password} onChange={(p: ChangeEvent<HTMLInputElement>) => setPassword(p.currentTarget.value)} />
+                    <Form.Control type="password" placeholder="Enter password" value={password} onChange={(p) => setPassword(p.currentTarget.value)} />
+                </Form.Group>
+                <Form.Group controlId="formRegisterPasswordConfirmation">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control type="password" placeholder="Confirm password" value={passwordConfirmation} onChange={(p) => setPasswordConfirmation(p.currentTarget.value)} />
                 </Form.Group>
                 <Alert variant="danger" style={error !== '' ? { display: 'block' } : { display: 'none' }}>
                     {error}
                 </Alert>
                 <Button variant="primary" type="submit" size="lg">
-                    Log In
+                    Register
                 </Button>
             </Form>
         </>

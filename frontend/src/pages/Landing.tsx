@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Navbar, Container, Row, Col, Alert, Tab } from 'react-bootstrap';
 import Tabs from 'react-bootstrap/Tabs';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Login } from './Login';
 import { Register } from './Register';
 
-type Props = {};
+type Props = {
+    defaultActiveKey: string;
+};
 
-export default function LandingPage({}: Props) {
-    const location = useLocation();
+export default function LandingPage({ defaultActiveKey }: Props) {
+    const navigate = useNavigate();
 
     return (
         <>
@@ -22,7 +24,7 @@ export default function LandingPage({}: Props) {
                     </Col>
                 </Row>
                 <Row>
-                    <Tabs>
+                    <Tabs defaultActiveKey={defaultActiveKey} onSelect={(e) => navigate('/' + e)}>
                         <Tab eventKey="login" title="Login">
                             <Login />
                         </Tab>

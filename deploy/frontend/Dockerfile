@@ -1,4 +1,4 @@
-FROM node:16-buster as dev
+FROM docker.artifact.xtraman.org/infra/devops/node:14-buster as dev
 
 COPY ./frontend /app
 WORKDIR /app

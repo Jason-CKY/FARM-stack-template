@@ -15,6 +15,16 @@ interface LoginSuccessResponseInterface {
     token_type: string;
 }
 
+interface UserSuccessResponseInterface {
+    id: string;
+    email: string;
+    is_active: boolean;
+    is_superuser: boolean;
+    is_verified: boolean;
+    firstName: string;
+    lastName: string;
+}
+
 interface FailureResponseInterface {
     detail: string;
 }
@@ -24,6 +34,7 @@ interface AuthContextInterface {
     register: (firstName: String, lastName: String, email: String, password: String, passwordConfirmation: String) => Promise<RegisterSuccessResponseInterface | FailureResponseInterface>;
     login: (email: string, password: string) => Promise<LoginSuccessResponseInterface | FailureResponseInterface>;
     logout: () => Promise<void>;
+    getUser: () => Promise<UserSuccessResponseInterface | FailureResponseInterface>;
 }
 
 const authContext = React.createContext<AuthContextInterface | null>(null);
@@ -71,6 +82,9 @@ function useAuth() {
         // Create request
         const request = new Request('/api/auth/register', {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(formData)
         });
         // Fetch request
@@ -137,12 +151,24 @@ function useAuth() {
         localStorage.removeItem('token');
         localStorage.removeItem('permissions');
     };
-
+    const getUser = async () => {
+        const token = localStorage.getItem('token');
+        // Create request
+        const request = new Request('/api/users/me', {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        // Fetch request
+        const response = await fetch(request);
+        const data = await response.json();
+        return data;
+    };
     return {
         isAuthenticated,
         register,
         login,
-        logout
+        logout,
+        getUser
     };
 }
 
