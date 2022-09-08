@@ -76,7 +76,7 @@ This template includes production deployment to either docker containers or kube
 
 ### Docker deployment
 
-`docker-compose --env-file config/database.env -f docker-compose.production.yml up --build -d`
+`make start`
 
 ### Kubernetes deployment
 
