@@ -19,6 +19,7 @@ This repo contains the template code for a FARM (FastAPI, React, Mongo-db) stack
 - **[Typescript](https://www.typescriptlang.org/)** (typescript library)
 - **[React-Bootstrap](https://github.com/react-bootstrap/react-bootstrap)** (frontend styling library)
 - **[React-Icons](https://github.com/react-icons/react-icons)** (frontend styling library)
+- **[Ant-Design](https://ant.design/docs/react/introduce)** (React UI library)
 - **[MongoDB](https://github.com/mongodb/mongo)** (database server)
 - **[Motor](https://github.com/mongodb/motor)** (async MongoDB connector for Python)
 
