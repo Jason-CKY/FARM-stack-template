@@ -1,5 +1,5 @@
 import logging
-from fastapi import APIRouter, HTTPException, Body, status, Depends
+from fastapi import APIRouter, HTTPException, Body, status, Depends, Response
 from app.schemas.Users import UserRead
 from app.core.auth import current_active_user
 from fastapi.encoders import jsonable_encoder
@@ -61,11 +61,11 @@ async def put_todo(id: str, todo: UpdateTodoModel = Body(...)):
     )
 
 
-@router.delete("/todo/{id}")
+@router.delete("/todo/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def remove_todo(id: str):
     response = await delete_todo(id)
     if response.deleted_count == 1:
-        return JSONResponse(status_code=status.HTTP_204_NO_CONTENT)
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Todo id={id} not found"

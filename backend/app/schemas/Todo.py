@@ -1,16 +1,18 @@
-import uuid
 from pydantic import BaseModel, Field
 from typing import Optional
-
+from app.schemas.Base import PyObjectId
+from bson import ObjectId
 
 class TodoModel(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     title: str = Field(...)
     description: str = Field(...)
     completed: bool = False
 
     class Config:
         allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
                 "title": "Morning task",
@@ -26,6 +28,8 @@ class UpdateTodoModel(BaseModel):
     completed: Optional[bool]
 
     class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
                 "title": "Morning task",
