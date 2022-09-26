@@ -10,8 +10,7 @@ type RegisterFunctionSignature = (
 ) => Promise<RegisterSuccessResponseInterface | FailureResponseInterface>;
 type LoginFunctionSignature = (email: string, password: string) => Promise<LoginSuccessResponseInterface | FailureResponseInterface>;
 type LogoutFunctionSignature = () => Promise<void>;
-type GetUserFunctionSignature = () => Promise<UserSuccessResponseInterface>;
-type IsAuthenticatedFunctionSignature = () => boolean;
+type GetUserFunctionSignature = () => Promise<UserInterface>;
 
 interface RegisterSuccessResponseInterface {
     id: string;
@@ -28,7 +27,7 @@ interface LoginSuccessResponseInterface {
     token_type: string;
 }
 
-interface UserSuccessResponseInterface {
+export interface UserInterface {
     id: string;
     email: string;
     is_active: boolean;
@@ -41,13 +40,7 @@ interface UserSuccessResponseInterface {
 interface FailureResponseInterface {
     detail: string;
 }
-export const isAuthenticated: IsAuthenticatedFunctionSignature = () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        return false;
-    }
-    return true;
-};
+
 export const register: RegisterFunctionSignature = async (firstName, lastName, email, password, passwordConfirmation) => {
     // Assert firstName, lastName and phone not empty
     if (!(firstName.length > 0)) {
@@ -165,7 +158,7 @@ export const getUser: GetUserFunctionSignature = async () => {
     // Fetch request
     const response = await fetch(request);
     const data = await response.json();
-    if (response.status === 401) {
+    if (response.status >= 400 && response.status < 500) {
         if (data.detail) {
             throw data.detail;
         }
