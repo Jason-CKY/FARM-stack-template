@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Alert } from 'react-bootstrap';
-import useAuth from '../hooks/auth';
+import * as AuthRoutes from '../provider/AuthRoutes';
 
 interface LocationStateInterface {
     path: string | null;
@@ -9,7 +9,6 @@ interface LocationStateInterface {
 
 export function Register() {
     const navigate = useNavigate();
-    const authCtx = useAuth();
 
     // User information hook
     const [firstName, setFirstName] = useState('');
@@ -27,7 +26,7 @@ export function Register() {
         e.preventDefault();
         setError('');
         try {
-            const response = await authCtx?.register(firstName, lastName, email, password, passwordConfirmation);
+            const response = await AuthRoutes.register(firstName, lastName, email, password, passwordConfirmation);
             // Executes only when there are no 400 and 500 errors, else they are thrown as errors
             // Callbacks can be added here
             if (response) {
@@ -41,6 +40,8 @@ export function Register() {
                 // Handle errors thrown from backend
                 if (err === 'LOGIN_BAD_CREDENTIALS') {
                     setError('Incorrect credentials');
+                } else if (err === 'REGISTER_USER_ALREADY_EXISTS') {
+                    setError('User already exists');
                 } else {
                     setError('Error occured in the API.');
                 }
