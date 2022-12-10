@@ -36,12 +36,16 @@ settings = Settings(
 )
 
 # configure project-specific logger
-loggers = [logging.getLogger(name) for name in logging.root.manager.loggerDict]
+logger_names = [
+	'uvicorn', 'uvicorn.access', 'uvicorn.error', settings.app_name
+]
 ch = logging.StreamHandler()
 ch.setFormatter(logging.Formatter(settings.log_format))
-ch.setLevel(settings.log_level)
-for logger in loggers:
-    logger.handlers = []
-    logger.addHandler(ch)
+for logger_name in logger_names:
+	logger = logging.getLogger(logger_name)
+	logger.handlers = []
+	logger.addHandler(ch)
+	logger.setLevel(settings.log_level)
 
 logging.getLogger("uvicorn.error").propagate = False
+

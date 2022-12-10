@@ -13,6 +13,8 @@ This repo contains the template code for a FARM (FastAPI, React, Mongo-db) stack
 
 ## Features
 
+### TODO: Add tailwind, change all component library to Mantine
+
 - **[FastAPI](https://github.com/tiangolo/fastapi)** (backend server)
 - **[FastAPIUsers](https://github.com/frankie567/fastapi-users)** (authentication system)
 - **[React](https://reactjs.org/)** (frontend library)
