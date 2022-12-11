@@ -3,7 +3,6 @@ import 'antd/dist/antd.css';
 
 import { Col, Row, Timeline } from 'antd';
 import { CheckCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import NavigationBar from '../components/Navbar';
 
 export interface ITodoProps {}
 
@@ -57,7 +56,6 @@ export function Todo(props: ITodoProps) {
 
     return (
         <>
-            <NavigationBar />
             <Row style={{ marginTop: 50 }}>
                 <Col span={14} offset={5}>
                     <Timeline mode="alternate">{timeline}</Timeline>
