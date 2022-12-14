@@ -1,39 +1,16 @@
 import React from 'react';
-import { Container, Row, Col, Alert, Tab } from 'react-bootstrap';
-import Tabs from 'react-bootstrap/Tabs';
-import { useNavigate } from 'react-router-dom';
-import { Login } from './Login';
-import { Register } from './Register';
+import { AuthenticationForm } from '../components/AuthenticationForm';
 
-type Props = {
-    defaultActiveKey: string;
-};
+interface ILandingPage {
+    type: 'login' | 'register';
+}
 
-export default function LandingPage({ defaultActiveKey }: Props) {
-    const navigate = useNavigate();
-
+export default function LandingPage({ type }: ILandingPage) {
     return (
-        <>
-            <Container className="mt-4">
-                <Row>
-                    <Col className="mt-4">
-                        <h2>Hello!</h2>
-                        <Alert variant={'primary'}>
-                            If you have the FastAPI backend and MongoDB running, then just create a new user account using the registration form and enter the web application.
-                        </Alert>
-                    </Col>
-                </Row>
-                <Row>
-                    <Tabs defaultActiveKey={defaultActiveKey} onSelect={(e) => navigate('/' + e)}>
-                        <Tab eventKey="login" title="Login">
-                            <Login />
-                        </Tab>
-                        <Tab eventKey="register" title="Register">
-                            <Register />
-                        </Tab>
-                    </Tabs>
-                </Row>
-            </Container>
-        </>
+        <div className="flex items-center justify-center">
+            <div className="w-[50%] mt-10">
+                <AuthenticationForm type={type} />
+            </div>
+        </div>
     );
 }

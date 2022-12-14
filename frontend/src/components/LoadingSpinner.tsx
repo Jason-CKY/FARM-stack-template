@@ -1,8 +1,12 @@
 import React from 'react';
-import { ThreeDots } from 'react-loader-spinner';
+import { Loader } from '@mantine/core';
 
 export interface ILoadingSpinnerProps {}
 
 export function LoadingSpinner(props: ILoadingSpinnerProps) {
-    return <ThreeDots height="100" width="100" radius="9" color="#4fa94d" ariaLabel="three-dots-loading" wrapperClass="spinner" visible={true} />;
+    return (
+        <div className="h-[100vh] w-[100vw] flex items-center justify-center">
+            <Loader size={100} />
+        </div>
+    );
 }

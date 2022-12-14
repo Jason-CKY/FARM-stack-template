@@ -1,5 +1,6 @@
 from beanie import init_beanie
 from app.schemas.Users import UserCreate, UserRead, UserUpdate
+from app.schemas.Todo import Todo
 from app.core.auth import auth_backend, current_active_user, fastapi_users
 from app.database.users import User
 
@@ -27,7 +28,7 @@ async def on_startup():
     await init_beanie(
         database=db,
         document_models=[
-            User,
+            User, Todo
         ],
     )
 

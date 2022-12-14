@@ -3,7 +3,11 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
-        "@ant-design/icons": "^4.7.0",
+        "@mantine/core": "^5.9.3",
+        "@mantine/ds": "^5.9.4",
+        "@mantine/form": "^5.9.3",
+        "@mantine/hooks": "^5.9.3",
+        "@mantine/notifications": "^5.9.4",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^13.3.0",
         "@testing-library/user-event": "^13.5.0",
@@ -11,12 +15,10 @@
         "@types/node": "^16.11.56",
         "@types/react": "^18.0.17",
         "@types/react-dom": "^18.0.6",
-        "antd": "^4.22.8",
-        "bootstrap": "^5.2.0",
+        "dayjs": "^1.11.7",
         "react": "^18.2.0",
-        "react-bootstrap": "^2.5.0",
         "react-dom": "^18.2.0",
-        "react-loader-spinner": "^5.3.4",
+        "react-icons": "^4.7.1",
         "react-router-dom": "^6.3.0",
         "react-scripts": "5.0.1",
         "typescript": "^4.8.2",
@@ -46,5 +48,10 @@
             "last 1 safari version"
         ]
     },
-    "proxy": "http://fastapi:80"
+    "proxy": "http://fastapi:80",
+    "devDependencies": {
+        "autoprefixer": "^10.4.13",
+        "postcss": "^8.4.19",
+        "tailwindcss": "^3.2.4"
+    }
 }
