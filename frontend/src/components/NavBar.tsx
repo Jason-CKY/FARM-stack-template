@@ -36,7 +36,7 @@ export function NavBar({}: INavBarProps) {
             <div className="flex justify-between w-full">
                 <img
                     src={Logo}
-                    className="rounded-full mx-2 hover:cursor-pointer"
+                    className="rounded-full mx-2 hover:cursor-pointer w-[4rem]"
                     onClick={() => {
                         navigate('/');
                     }}
