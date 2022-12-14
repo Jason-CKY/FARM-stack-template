@@ -41,7 +41,7 @@ export function NavBar({}: INavBarProps) {
                         navigate('/');
                     }}
                 />
-                <div className="flex">
+                <div className="flex items-center">
                     {!!user.id && (
                         <div className="flex items-center">
                             <Text c="dimmed">

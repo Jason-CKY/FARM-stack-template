@@ -46,6 +46,7 @@ export function AuthenticationForm({ paperProps, type }: IAuthenticationForm) {
             // Executes only when there are no 400 and 500 errors, else they are thrown as errors
             // Callbacks can be added here
             if (response) {
+                await callLogin(email, password);
                 navigate(state?.path || '/');
             }
         } catch (err) {
