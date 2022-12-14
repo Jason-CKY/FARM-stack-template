@@ -10,6 +10,7 @@ import LandingPage from './pages/Landing';
 import { Logout } from './pages/Logout';
 import { Todo } from './pages/Todo';
 import { NavBar } from './components/NavBar';
+import { AuthenticationForm } from './components/AuthenticationForm';
 
 const useStyles = createStyles((theme) => ({
     background: {
@@ -57,7 +58,7 @@ export function Application(props: IApplicationProps) {
                             element={
                                 <>
                                     <MainPageLayout>
-                                        <LandingPage defaultActiveKey="login" />
+                                        <LandingPage type="login" />
                                     </MainPageLayout>
                                 </>
                             }
@@ -66,7 +67,7 @@ export function Application(props: IApplicationProps) {
                             path="/register"
                             element={
                                 <MainPageLayout>
-                                    <LandingPage defaultActiveKey="register" />
+                                    <LandingPage type="register" />
                                 </MainPageLayout>
                             }
                         />

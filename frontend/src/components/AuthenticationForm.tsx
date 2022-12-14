@@ -1,9 +1,15 @@
 import { useToggle, upperFirst } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { TextInput, PasswordInput, Text, Paper, Group, PaperProps, Button, Divider, Checkbox, Anchor, Stack } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 
-export function AuthenticationForm(props: PaperProps) {
-    const [type, toggle] = useToggle(['login', 'register']);
+interface IAuthenticationForm {
+    paperProps?: PaperProps;
+    type: string;
+}
+export function AuthenticationForm({ paperProps, type }: IAuthenticationForm) {
+    const navigate = useNavigate();
+
     const form = useForm({
         initialValues: {
             email: '',
@@ -19,14 +25,19 @@ export function AuthenticationForm(props: PaperProps) {
     });
 
     return (
-        <Paper radius="md" p="xl" withBorder {...props}>
+        <Paper radius="md" p="xl" withBorder {...paperProps}>
             <Text size="lg" weight={500}>
                 Welcome to Mantine, {type} with email
             </Text>
 
             <form onSubmit={form.onSubmit(() => {})}>
                 <Stack>
-                    {type === 'register' && <TextInput label="Name" placeholder="Your name" value={form.values.name} onChange={(event) => form.setFieldValue('name', event.currentTarget.value)} />}
+                    {type === 'register' && (
+                        <>
+                            <TextInput required label="First Name" placeholder="Your first name" value={form.values.name} onChange={(event) => form.setFieldValue('name', event.currentTarget.value)} />
+                            <TextInput required label="Last Name" placeholder="Your last name" value={form.values.name} onChange={(event) => form.setFieldValue('name', event.currentTarget.value)} />
+                        </>
+                    )}
 
                     <TextInput
                         required
@@ -47,12 +58,19 @@ export function AuthenticationForm(props: PaperProps) {
                     />
 
                     {type === 'register' && (
-                        <Checkbox label="I accept terms and conditions" checked={form.values.terms} onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)} />
+                        <PasswordInput
+                            required
+                            label="Confirm Password"
+                            placeholder="Your password"
+                            value={form.values.password}
+                            onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
+                            error={form.errors.password && 'Password should include at least 6 characters'}
+                        />
                     )}
                 </Stack>
 
                 <Group position="apart" mt="xl">
-                    <Anchor component="button" type="button" color="dimmed" onClick={() => toggle()} size="xs">
+                    <Anchor component="button" type="button" color="dimmed" onClick={() => (type === 'register' ? navigate('/login') : navigate('/register'))} size="xs">
                         {type === 'register' ? 'Already have an account? Login' : "Don't have an account? Register"}
                     </Anchor>
                     <Button type="submit">{upperFirst(type)}</Button>
