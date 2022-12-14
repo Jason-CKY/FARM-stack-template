@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React, { useState } from 'react';
 import { MantineProvider, ColorSchemeProvider, ColorScheme, createStyles } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import RequireAuth from './components/RequireAuth';
@@ -10,7 +11,6 @@ import LandingPage from './pages/Landing';
 import { Logout } from './pages/Logout';
 import { Todo } from './pages/Todo';
 import { NavBar } from './components/NavBar';
-import { AuthenticationForm } from './components/AuthenticationForm';
 
 const useStyles = createStyles((theme) => ({
     background: {
@@ -51,48 +51,50 @@ export function Application(props: IApplicationProps) {
     return (
         <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
             <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-                <BrowserRouter>
-                    <Routes>
-                        <Route
-                            path="/login"
-                            element={
-                                <>
+                <NotificationsProvider>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route
+                                path="/login"
+                                element={
+                                    <>
+                                        <MainPageLayout>
+                                            <LandingPage type="login" />
+                                        </MainPageLayout>
+                                    </>
+                                }
+                            />
+                            <Route
+                                path="/register"
+                                element={
                                     <MainPageLayout>
-                                        <LandingPage type="login" />
+                                        <LandingPage type="register" />
                                     </MainPageLayout>
-                                </>
-                            }
-                        />
-                        <Route
-                            path="/register"
-                            element={
-                                <MainPageLayout>
-                                    <LandingPage type="register" />
-                                </MainPageLayout>
-                            }
-                        />
-                        <Route path="/logout" element={<Logout />} />
-                        <Route path="/loading" element={<LoadingSpinner />} />
-                        <Route
-                            path="/"
-                            element={
-                                <RequireAuth>
-                                    <Navigate to="/todo" />
-                                </RequireAuth>
-                            }
-                        />
-                        <Route
-                            path="todo"
-                            element={
-                                <RequireAuth>
-                                    <MainPageLayout>
-                                        <Todo />
-                                    </MainPageLayout>
-                                </RequireAuth>
-                            }
-                        />
-                    </Routes>
-                </BrowserRouter>
+                                }
+                            />
+                            <Route path="/logout" element={<Logout />} />
+                            <Route path="/loading" element={<LoadingSpinner />} />
+                            <Route
+                                path="/"
+                                element={
+                                    <RequireAuth>
+                                        <Navigate to="/todo" />
+                                    </RequireAuth>
+                                }
+                            />
+                            <Route
+                                path="todo"
+                                element={
+                                    <RequireAuth>
+                                        <MainPageLayout>
+                                            <Todo />
+                                        </MainPageLayout>
+                                    </RequireAuth>
+                                }
+                            />
+                        </Routes>
+                    </BrowserRouter>
+                </NotificationsProvider>
             </MantineProvider>
         </ColorSchemeProvider>
     );

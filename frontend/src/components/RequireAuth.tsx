@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import * as AuthRoutes from '../provider/AuthRoutes';
+import * as AuthRoutes from '../api/AuthRoutes';
 import { LoadingSpinner } from './LoadingSpinner';
 
 interface RequireAuthProps {

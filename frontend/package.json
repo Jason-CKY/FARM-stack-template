@@ -5,8 +5,10 @@
     "dependencies": {
         "@ant-design/icons": "^4.7.0",
         "@mantine/core": "^5.9.3",
+        "@mantine/ds": "^5.9.4",
         "@mantine/form": "^5.9.3",
         "@mantine/hooks": "^5.9.3",
+        "@mantine/notifications": "^5.9.4",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^13.3.0",
         "@testing-library/user-event": "^13.5.0",

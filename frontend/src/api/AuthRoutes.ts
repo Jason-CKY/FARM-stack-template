@@ -1,17 +1,6 @@
 // Stores all the relevant api function calls with error handling
 // Prevents repeating of code if the same api calls is required in many components
 
-type RegisterFunctionSignature = (
-    firstName: String,
-    lastName: String,
-    email: String,
-    password: String,
-    passwordConfirmation: String
-) => Promise<RegisterSuccessResponseInterface | FailureResponseInterface>;
-type LoginFunctionSignature = (email: string, password: string) => Promise<LoginSuccessResponseInterface | FailureResponseInterface>;
-type LogoutFunctionSignature = () => Promise<void>;
-type GetUserFunctionSignature = () => Promise<UserInterface>;
-
 interface RegisterSuccessResponseInterface {
     id: string;
     email: string;
@@ -41,31 +30,7 @@ interface FailureResponseInterface {
     detail: string;
 }
 
-export const register: RegisterFunctionSignature = async (firstName, lastName, email, password, passwordConfirmation) => {
-    // Assert firstName, lastName and phone not empty
-    if (!(firstName.length > 0)) {
-        throw new Error('First Name was not provided');
-    }
-    // Assert firstName, lastName and phone not empty
-    if (!(lastName.length > 0)) {
-        throw new Error('Last Name was not provided');
-    }
-    // Assert email is not empty
-    if (!(email.length > 0)) {
-        throw new Error('Email was not provided');
-    }
-    // Assert password is not empty
-    if (!(password.length > 0)) {
-        throw new Error('Password was not provided');
-    }
-    // Assert password confirmation is not empty
-    if (!(passwordConfirmation.length > 0)) {
-        throw new Error('Password confirmation was not provided');
-    }
-    // Assert email or password or password confirmation is not empty
-    if (password !== passwordConfirmation) {
-        throw new Error('Passwords do not match');
-    }
+export const register = async (firstName: string, lastName: string, email: string, password: string): Promise<RegisterSuccessResponseInterface | FailureResponseInterface> => {
     // Create data JSON
     const formData = {
         email: email,
@@ -98,7 +63,7 @@ export const register: RegisterFunctionSignature = async (firstName, lastName, e
     return data;
 };
 
-export const login: LoginFunctionSignature = async (email, password) => {
+export const login = async (email: string, password: string): Promise<LoginSuccessResponseInterface | FailureResponseInterface> => {
     // Assert email is not empty
     if (!(email.length > 0)) {
         throw new Error('Email was not provided');
@@ -139,7 +104,7 @@ export const login: LoginFunctionSignature = async (email, password) => {
     return data;
 };
 
-export const logout: LogoutFunctionSignature = async () => {
+export const logout = async (): Promise<void> => {
     const token = localStorage.getItem('token');
     await fetch('/api/auth/jwt/logout', {
         method: 'POST',
@@ -148,7 +113,7 @@ export const logout: LogoutFunctionSignature = async () => {
     localStorage.removeItem('token');
 };
 
-export const getUser: GetUserFunctionSignature = async () => {
+export const getUser = async (): Promise<UserInterface> => {
     const token = localStorage.getItem('token');
     // Create request
     const request = new Request('/api/users/me', {

@@ -7,8 +7,8 @@ interface ILandingPage {
 
 export default function LandingPage({ type }: ILandingPage) {
     return (
-        <div className="vh-100 flex items-center justify-center">
-            <div className="w-[50%] h-[50%]">
+        <div className="flex items-center justify-center">
+            <div className="w-[50%] mt-10">
                 <AuthenticationForm type={type} />
             </div>
         </div>

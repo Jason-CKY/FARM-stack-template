@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { LoadingSpinner } from '../components/LoadingSpinner';
-import * as AuthRoutes from '../provider/AuthRoutes';
+import * as AuthRoutes from '../api/AuthRoutes';
 
 export function Logout() {
     const [hasLoaded, setHasLoaded] = useState(false);
