@@ -129,8 +129,8 @@ export function Todo(props: ITodoProps) {
                     <TodoForm />
                 </div>
             </div>
-            <div className="flex w-[50%] items-center justify-center">
-                <Timeline bulletSize={24} lineWidth={2} className="mt-5">
+            <div className="flex w-[50%] max-h-[90vh] items-center justify-center overflow-auto mt-30">
+                <Timeline bulletSize={24} lineWidth={2} className="my-5 max-h-[100%]">
                     {timeline}
                 </Timeline>
             </div>

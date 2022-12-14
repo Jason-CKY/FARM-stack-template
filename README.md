@@ -73,7 +73,7 @@ Run `make help` for the list of quick Make commands available. This template inc
 
 ### Backend Swagger UI
 
-![backend swagger UI](https://user-images.githubusercontent.com/27609953/189018000-deba3755-4fc2-4ed5-82df-39c9defa68d3.png)
+![backend swagger UI](https://user-images.githubusercontent.com/27609953/207643186-fbc16a42-b99e-4032-9b55-0ca4e08294a5.png)
 
 <hr>
 
