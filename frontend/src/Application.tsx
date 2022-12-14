@@ -1,5 +1,4 @@
 import './styles.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React, { useState } from 'react';
 import { MantineProvider, ColorSchemeProvider, ColorScheme, createStyles } from '@mantine/core';

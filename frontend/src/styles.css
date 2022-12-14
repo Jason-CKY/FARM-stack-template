@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.spinner {
-    position: fixed;
-    top: 50%;
-    left: 50%;
+.mantine-Timeline-itemBullet:hover {
+    background-color: green !important;
+    cursor: pointer !important;
 }

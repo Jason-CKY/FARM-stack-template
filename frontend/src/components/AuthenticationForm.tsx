@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { upperFirst } from '@mantine/hooks';
@@ -209,7 +209,7 @@ export function AuthenticationForm({ paperProps, type }: IAuthenticationForm) {
                         type="button"
                         color="dimmed"
                         onClick={() => {
-                            form.setValues({ email: '', firstName: '', lastName: '', password: '', confirmPassword: '' });
+                            form.reset();
                             type === 'register' ? navigate('/login') : navigate('/register');
                         }}
                         size="xs"

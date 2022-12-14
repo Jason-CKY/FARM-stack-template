@@ -1,46 +1,43 @@
-from app.schemas.Todo import TodoModel, UpdateTodoModel
+from app.schemas.Todo import Todo, UpdateTodo, CreateTodo
 from app.core.database import todo_collection as collection
-
+from fastapi.encoders import jsonable_encoder
+from beanie import PydanticObjectId
 
 async def fetch_one_todo(id: str):
-    document = await collection.find_one({"_id": id})
-    return document
+    return await Todo.find_one(Todo.id == id)
 
 
 async def fetch_all_todos():
-    documents = []
-    cursor = collection.find()
-    async for document in cursor:
-        documents.append(TodoModel(**document))
-    return documents
+    return await Todo.find().to_list()
 
+async def create_todo(create_todo: CreateTodo):
+    document = jsonable_encoder(create_todo)
+    todo = Todo(**document)
+    new_todo = await todo.insert()
+    return new_todo
 
-async def create_todo(todo: TodoModel):
-    document = todo
-    new_todo = await collection.insert_one(document)
-    created_todo = await collection.find_one({"_id": new_todo.inserted_id})
-    return created_todo
+async def update_todo(id: PydanticObjectId, update_todo: UpdateTodo):
+	todo = {
+		getattr(Todo, k): v
+		for k, v in update_todo.dict().items() if v is not None
+	}
+	if len(todo) >= 1:
+		update_result = await Todo.find_one(Todo.id == id).update({
+			"$set":
+			todo
+		})
+		if update_result.modified_count == 1:
+			updated_todo = await Todo.find_one(Todo.id == id)
+			if updated_todo:
+				return updated_todo
 
+	existing_todo = await Todo.find_one(Todo.id == id)
+	if existing_todo:
+		return existing_todo
 
-async def update_todo(id: str, todo: UpdateTodoModel):
-    todo = {k: v for k, v in todo.dict().items() if v is not None}
+	return None
 
-    if len(todo) >= 1:
-        update_result = await collection.update_one({
-            "_id": id
-        }, {"$set": todo})
-        if update_result.modified_count == 1:
-            updated_todo = await collection.find_one({"_id": id})
-            if updated_todo:
-                return updated_todo
-
-    existing_todo = await collection.find_one({"_id": id})
-    if existing_todo:
-        return existing_todo
-
-    return None
-
-
-async def delete_todo(id: str):
-    delete_result = await collection.delete_one({"_id": id})
-    return delete_result
+async def delete_todo(id: PydanticObjectId):
+    
+	delete_result = await Todo.find_one(Todo.id == id).delete()
+	return delete_result

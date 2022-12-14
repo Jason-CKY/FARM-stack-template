@@ -21,9 +21,7 @@ const useStyles = createStyles((theme) => ({
     }
 }));
 
-interface INavBarProps {}
-
-export function NavBar({}: INavBarProps) {
+export function NavBar() {
     const { classes } = useStyles();
     const user = useContext(AuthContext);
     const navigate = useNavigate();
@@ -36,6 +34,7 @@ export function NavBar({}: INavBarProps) {
             <div className="flex justify-between w-full">
                 <img
                     src={Logo}
+                    alt=""
                     className="rounded-full mx-2 hover:cursor-pointer w-[4rem]"
                     onClick={() => {
                         navigate('/');
