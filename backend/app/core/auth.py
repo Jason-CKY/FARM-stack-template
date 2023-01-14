@@ -10,8 +10,22 @@ from fastapi_users.authentication import (
     JWTStrategy,
 )
 from fastapi_users.db import BeanieUserDatabase, ObjectIDIDMixin
+from httpx_oauth.clients.openid import OpenID
+from httpx_oauth.clients.github import GitHubOAuth2
 
 from app.database.users import User, get_user_db
+
+gitlab_oauth_client = OpenID(
+    client_id=settings.gitlab_client_id,
+    client_secret=settings.gitlab_client_secret,
+    openid_configuration_endpoint=settings.gitlab_configuration_endpoint,
+    name="gitlab",
+)
+
+github_oauth_client = GitHubOAuth2(
+    client_id=settings.github_client_id,
+    client_secret=settings.github_client_secret
+)
 
 
 class UserManager(ObjectIDIDMixin, BaseUserManager[User, PydanticObjectId]):

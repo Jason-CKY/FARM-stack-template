@@ -7,7 +7,7 @@ export interface TodoInterface {
 }
 
 export const GetTodoList = async (): Promise<TodoInterface[]> => {
-    const request = new Request('/api/v1/todo', {
+    const request = new Request(`${process.env.REACT_APP_BACKEND_URL}/v1/todo`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export const GetTodoList = async (): Promise<TodoInterface[]> => {
 };
 
 export const GetTodoListById = async (id: string): Promise<TodoInterface> => {
-    const request = new Request(`/api/v1/todo/${id}`, {
+    const request = new Request(`${process.env.REACT_APP_BACKEND_URL}/v1/todo/${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export const GetTodoListById = async (id: string): Promise<TodoInterface> => {
 };
 
 export const CreateTodo = async (title: string, description: string, completed?: boolean): Promise<TodoInterface> => {
-    const request = new Request('/api/v1/todo', {
+    const request = new Request(`${process.env.REACT_APP_BACKEND_URL}/v1/todo`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ export const CreateTodo = async (title: string, description: string, completed?:
 };
 
 export const UpdateTodo = async (todo: TodoInterface): Promise<void> => {
-    const request = new Request(`/api/v1/todo/${todo.id}`, {
+    const request = new Request(`${process.env.REACT_APP_BACKEND_URL}/v1/todo/${todo.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ export const UpdateTodo = async (todo: TodoInterface): Promise<void> => {
 };
 
 export const DeleteTodo = async (id: string): Promise<void> => {
-    const request = new Request(`/api/v1/todo/${id}`, {
+    const request = new Request(`${process.env.REACT_APP_BACKEND_URL}/v1/todo/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

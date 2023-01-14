@@ -1,6 +1,8 @@
 // Stores all the relevant api function calls with error handling
 // Prevents repeating of code if the same api calls is required in many components
 
+import { process_response } from './Base';
+
 interface RegisterSuccessResponseInterface {
     id: string;
     email: string;
@@ -39,27 +41,17 @@ export const register = async (firstName: string, lastName: string, email: strin
         lastName: lastName
     };
     // Create request
-    const request = new Request('/api/auth/register', {
+    const request = new Request(`${process.env.REACT_APP_BACKEND_URL}/auth/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
     });
+
     // Fetch request
     const response = await fetch(request);
-    // 500 error handling
-    if (response.status === 500) {
-        throw new Error('Internal server error');
-    }
-    // 400 error handling
-    const data = await response.json();
-    if (response.status >= 400 && response.status < 500) {
-        if (data.detail) {
-            throw data.detail;
-        }
-        throw data;
-    }
+    const data = await process_response(response);
     return data;
 };
 
@@ -77,25 +69,13 @@ export const login = async (email: string, password: string): Promise<LoginSucce
     formData.append('username', email);
     formData.append('password', password);
     // Create request
-    const request = new Request('/api/auth/jwt/login', {
+    const request = new Request(`${process.env.REACT_APP_BACKEND_URL}/auth/jwt/login`, {
         method: 'POST',
         body: formData
     });
     // Fetch request
     const response = await fetch(request);
-    // 500 error handling
-    if (response.status === 500) {
-        throw new Error('Internal server error');
-    }
-    // Extracting response data
-    const data = await response.json();
-    // 400 error handling
-    if (response.status >= 400 && response.status < 500) {
-        if (data.detail) {
-            throw data.detail;
-        }
-        throw data;
-    }
+    const data: any = await process_response(response);
     // Successful login handling
     if ('access_token' in data) {
         localStorage.setItem('token', data['access_token']);
@@ -106,7 +86,7 @@ export const login = async (email: string, password: string): Promise<LoginSucce
 
 export const logout = async (): Promise<void> => {
     const token = localStorage.getItem('token');
-    await fetch('/api/auth/jwt/logout', {
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/jwt/logout`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` }
     });
@@ -116,18 +96,46 @@ export const logout = async (): Promise<void> => {
 export const getUser = async (): Promise<UserInterface> => {
     const token = localStorage.getItem('token');
     // Create request
-    const request = new Request('/api/users/me', {
+    const request = new Request(`${process.env.REACT_APP_BACKEND_URL}/users/me`, {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` }
     });
     // Fetch request
     const response = await fetch(request);
-    const data = await response.json();
-    if (response.status >= 400 && response.status < 500) {
-        if (data.detail) {
-            throw data.detail;
-        }
-        throw data;
-    }
+    const data = await process_response(response);
     return data;
+};
+
+interface AuthorizeInterface {
+    authorization_url: string;
+}
+
+interface TokenResponseInterface {
+    access_token: string;
+    token_type: string;
+}
+
+export const oauth_login = async (authorization_endpoint: string): Promise<void> => {
+    // Fetch request
+    const authorization_response = await fetch(authorization_endpoint, {
+        method: 'GET'
+    });
+    const authorization_data: AuthorizeInterface = await process_response(authorization_response);
+    setTimeout(console.log, 500, authorization_data.authorization_url);
+    window.location.replace(authorization_data.authorization_url);
+};
+
+export const oauth_fetch_token = async (callback_endpoint: string, urlParams: URLSearchParams) => {
+    // GET callback endpoint with code from backend to get access token
+    const authorization_response = await fetch(`${callback_endpoint}?${urlParams.toString()}`, {
+        method: 'GET'
+    });
+    // Fetch request
+    const data: TokenResponseInterface = await process_response(authorization_response);
+    // Successful login handling
+    if ('access_token' in data) {
+        localStorage.setItem('token', data['access_token']);
+        return data['access_token'];
+    }
+    return null;
 };

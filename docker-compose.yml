@@ -43,6 +43,13 @@ services:
       MONGODB_USER: ${MONGO_USER}
       MONGODB_PASSWORD: ${MONGO_PASSWORD}
       
+      OAUTH_GITLAB_CLIENT_ID: fill-this-in
+      OAUTH_GITLAB_CLIENT_SECRET: fill-this-in
+      OAUTH_GITLAB_CONFIGURATION_ENDPOINT: https://gitlab.com/.well-known/openid-configuration
+      
+      OAUTH_GITHUB_CLIENT_ID: fill-this-in
+      OAUTH_GITHUB_CLIENT_SECRET: fill-this-in
+
   react:
     build:
       context: .

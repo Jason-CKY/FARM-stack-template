@@ -59,6 +59,45 @@ Run `make help` for the list of quick Make commands available. This template inc
 
 <hr>
 
+## OAuth Integrations
+
+[FastAPI-Users](https://fastapi-users.github.io/fastapi-users/10.2/configuration/oauth/) OAuth Routers is used to connect to various oauth/openid providers. This template provides a Github and Gitlab OAuth logins but it is simple to extend this to other providers by adding the corresponding [client](./backend/app/core/auth.py) and [routers](./backend/app/main.py).
+
+### OAuth Endpoints
+
+FastAPI-Users exposes 2 endpoints for OAuth: `/authorize` and `/callback`. `GET /authorize` will return you the URL to redirect the user to the relevant provider for authentication. Set the redirect URI in the provider client settings to the `/callback` URL to generate the access token to login.
+
+### Frontend Integration for OAuth
+
+Clicking on `Login with Github` button will call the backend's corresponding `/authorize` endpoint to retrieve the authorization endpoint with redirect_uri, scopes, respond type, client id and state. The frontend will then redirect the user to the authorization endpoint to be authorized, before redirecting back to the login page with the authorization code. It then calls the backend's `/callback` endpoint with the authorization code and state parameters to retrieve the access token.
+
+### Existing account association
+
+If a user with the same e-mail address already exists, an HTTP 400 error will be raised by default.
+
+You can however choose to automatically link this OAuth account to the existing user account by setting the associate_by_email flag:
+
+```python
+app.include_router(
+    fastapi_users.get_oauth_router(
+        google_oauth_client,
+        auth_backend,
+        "SECRET",
+        associate_by_email=True,
+    ),
+    prefix="/auth/google",
+    tags=["auth"],
+)
+```
+
+Bear in mind though that it can lead to security breaches if the OAuth provider does not validate e-mail addresses. How?
+
+- Let's say your app support an OAuth provider, Merlinbook, which does not validate e-mail addresses.
+- Imagine a user registers to your app with the e-mail address lancelot@camelot.bt.
+- Now, a malicious user creates an account on Merlinbook with the same e-mail address. Without e-mail validation, the malicious user can use this account without limitation.
+- The malicious user authenticates using Merlinbook OAuth on your app, which automatically associates to the existing lancelot@camelot.bt.
+- Now, the malicious user has full access to the user account on your app 😞
+
 ## Screenshots
 
 ### Landing Page

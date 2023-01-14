@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { upperFirst } from '@mantine/hooks';
+import { upperFirst, useLocalStorage } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { IoMdAlert } from 'react-icons/io';
-import { TextInput, PasswordInput, Text, Paper, Group, PaperProps, Button, Anchor, Stack, Alert, Divider } from '@mantine/core';
+import { TextInput, PasswordInput, Text, Paper, Group, PaperProps, Button, Anchor, Stack, Alert, Divider, Loader } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 
 import * as AuthRoutes from '../api/AuthRoutes';
@@ -20,6 +20,8 @@ interface IAuthenticationForm {
     type: string;
 }
 export function AuthenticationForm({ paperProps, type }: IAuthenticationForm) {
+    const [loginInProgress, setLoginInProgress] = useLocalStorage({ key: 'loginInProgress', defaultValue: false });
+    const [callbackEndpoint, setCallbackEndpoint] = useLocalStorage({ key: 'callbackEndpoint', defaultValue: '' });
     const navigate = useNavigate();
     const location = useLocation();
     const state = location.state as LocationStateInterface;
@@ -36,6 +38,31 @@ export function AuthenticationForm({ paperProps, type }: IAuthenticationForm) {
             email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
             password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
             confirmPassword: (val, values) => (type === 'register' && val !== values.password ? 'Confirm Password must match Password' : null)
+        }
+    });
+
+    useEffect(() => {
+        const fetchTokens = async (urlParams: URLSearchParams) => {
+            // Request token from auth server with the auth code
+            try {
+                await AuthRoutes.oauth_fetch_token(callbackEndpoint, urlParams);
+                setLoginInProgress(false);
+                navigate(state?.path || '/');
+            } catch (err) {
+                const error = err as Error;
+                console.error(error);
+                showNotification({
+                    title: 'Failed to Fetch Oauth Token',
+                    message: error.message,
+                    color: 'red',
+                    icon: <AiFillCloseCircle />
+                });
+                setLoginInProgress(false);
+            }
+        };
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('code') && loginInProgress) {
+            fetchTokens(urlParams);
         }
     });
 
@@ -120,6 +147,10 @@ export function AuthenticationForm({ paperProps, type }: IAuthenticationForm) {
             }
         }
     };
+
+    if (loginInProgress) {
+        return <Loader className="mt-[20%]" size={100} />;
+    }
     return (
         <Paper radius="md" p="xl" withBorder {...paperProps}>
             <Alert icon={<IoMdAlert size={16} />} title="Attention!">
@@ -129,8 +160,27 @@ export function AuthenticationForm({ paperProps, type }: IAuthenticationForm) {
                 Welcome to Mantine, {type} with
             </Text>
             <Group grow mb="md" mt="md">
-                <GithubButton radius="xl">Github</GithubButton>
-                <GitlabButton radius="xl">Gitlab</GitlabButton>
+                <GithubButton
+                    radius="xl"
+                    onClick={async () => {
+                        setLoginInProgress(true);
+                        setCallbackEndpoint(`${process.env.REACT_APP_BACKEND_URL}/auth/github/callback`);
+                        await AuthRoutes.oauth_login(`${process.env.REACT_APP_BACKEND_URL}/auth/github/authorize`);
+                    }}
+                >
+                    Github
+                </GithubButton>
+                <GitlabButton
+                    radius="xl"
+                    onClick={async () => {
+                        setLoginInProgress(true);
+                        setCallbackEndpoint(`${process.env.REACT_APP_BACKEND_URL}/auth/gitlab/callback`);
+                        console.log(loginInProgress);
+                        await AuthRoutes.oauth_login(`${process.env.REACT_APP_BACKEND_URL}/auth/gitlab/authorize`);
+                    }}
+                >
+                    Gitlab
+                </GitlabButton>
             </Group>
 
             <Divider label="Or continue with email" labelPosition="center" my="lg" />
