@@ -67,7 +67,11 @@ Run `make help` for the list of quick Make commands available. This template inc
 
 FastAPI-Users exposes 2 endpoints for OAuth: `/authorize` and `/callback`. `GET /authorize` will return you the URL to redirect the user to the relevant provider for authentication. Set the redirect URI in the provider client settings to the `/callback` URL to generate the access token to login.
 
-### xisting account association¶
+### Frontend Integration for OAuth
+
+Clicking on `Login with Github` button will call the backend's corresponding `/authorize` endpoint to retrieve the authorization endpoint with redirect_uri, scopes, respond type, client id and state. The frontend will then redirect the user to the authorization endpoint to be authorized, before redirecting back to the login page with the authorization code. It then calls the backend's `/callback` endpoint with the authorization code and state parameters to retrieve the access token.
+
+### Existing account association
 
 If a user with the same e-mail address already exists, an HTTP 400 error will be raised by default.
 
