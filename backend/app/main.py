@@ -31,6 +31,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.on_event("startup")
 async def on_startup():
     await init_beanie(
@@ -75,7 +76,7 @@ app.include_router(
         auth_backend,
         settings.auth_secret_key,
         associate_by_email=False,
-        redirect_url='http://localhost:8000/auth/gitlab/callback'
+        redirect_url='http://localhost:3000/login'
     ),
     prefix="/auth/gitlab",
     tags=["auth", "gitlab"],
@@ -86,7 +87,7 @@ app.include_router(
         auth_backend,
         settings.auth_secret_key,
         associate_by_email=False,
-        redirect_url='http://localhost:8000/auth/github/callback'
+        redirect_url='http://localhost:3000/login'
     ),
     prefix="/auth/github",
     tags=["auth", "github"],

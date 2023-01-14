@@ -24,6 +24,12 @@ const useStyles = createStyles((theme) => ({
 export function NavBar() {
     const { classes } = useStyles();
     const user = useContext(AuthContext);
+    let username = '';
+    if (!!user.firstName && !!user.lastName) {
+        username = `${user.firstName} ${user.lastName}`;
+    } else {
+        username = user.email;
+    }
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -43,9 +49,7 @@ export function NavBar() {
                 <div className="flex items-center">
                     {!!user.id && (
                         <div className="flex items-center">
-                            <Text c="dimmed">
-                                Welcome, {user.firstName} {user.lastName}
-                            </Text>
+                            <Text c="dimmed">Welcome, {username}</Text>
                             <Button className="m-3" variant="default" color="gray" radius="lg" onClick={handleLogout}>
                                 Log Out
                             </Button>
