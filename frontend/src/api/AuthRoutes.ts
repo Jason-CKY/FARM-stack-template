@@ -39,7 +39,7 @@ export const register = async (firstName: string, lastName: string, email: strin
         lastName: lastName
     };
     // Create request
-    const request = new Request('/api/auth/register', {
+    const request = new Request(`${process.env.REACT_APP_BACKEND_URL}/auth/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ export const login = async (email: string, password: string): Promise<LoginSucce
     formData.append('username', email);
     formData.append('password', password);
     // Create request
-    const request = new Request('/api/auth/jwt/login', {
+    const request = new Request(`${process.env.REACT_APP_BACKEND_URL}/auth/jwt/login`, {
         method: 'POST',
         body: formData
     });
@@ -106,7 +106,7 @@ export const login = async (email: string, password: string): Promise<LoginSucce
 
 export const logout = async (): Promise<void> => {
     const token = localStorage.getItem('token');
-    await fetch('/api/auth/jwt/logout', {
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/jwt/logout`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` }
     });
@@ -116,7 +116,7 @@ export const logout = async (): Promise<void> => {
 export const getUser = async (): Promise<UserInterface> => {
     const token = localStorage.getItem('token');
     // Create request
-    const request = new Request('/api/users/me', {
+    const request = new Request(`${process.env.REACT_APP_BACKEND_URL}/users/me`, {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` }
     });

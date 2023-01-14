@@ -7,7 +7,7 @@ import { AiFillCloseCircle, AiOutlineMinus, AiOutlineCheck } from 'react-icons/a
 import { MdOutlineCancel } from 'react-icons/md';
 
 import { TodoForm } from '../components/TodoForm';
-import { DeleteTodo, TodoInterface, UpdateTodo } from '../api/TodoRoutes';
+import { DeleteTodo, TodoInterface, UpdateTodo, GetTodoList } from '../api/TodoRoutes';
 import { ErrorType } from '../api/Error';
 
 import dayjs from 'dayjs';
@@ -53,15 +53,7 @@ export function Todo(props: ITodoProps) {
 
     useEffect(() => {
         const fetchAllTasks = async () => {
-            const token = localStorage.getItem('token');
-            // Create request
-            const request = new Request('/api/v1/todo', {
-                method: 'GET',
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            // Fetch request
-            const response = await fetch(request);
-            const fetchedTodos = await response.json();
+            const fetchedTodos = await GetTodoList();
             setTodos(fetchedTodos);
         };
 
