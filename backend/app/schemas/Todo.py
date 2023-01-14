@@ -5,6 +5,7 @@ from bson import ObjectId
 from datetime import datetime
 from beanie import Document
 
+
 class ReadTodo(BaseModel):
     id: PyObjectId
     title: str = Field(...)
@@ -26,6 +27,7 @@ class ReadTodo(BaseModel):
             }
         }
 
+
 class Todo(Document):
     title: str = Field(...)
     description: str = Field(...)
@@ -33,13 +35,12 @@ class Todo(Document):
     created_at: datetime = Field(default_factory=datetime.now)
 
 
-
 class CreateTodo(BaseModel):
     title: str = Field(...)
     description: str = Field(...)
     completed: bool = False
     created_at: datetime = Field(default_factory=datetime.now)
-    
+
     class Config:
         allow_population_by_field_name = True
         arbitrary_types_allowed = True

@@ -14,8 +14,8 @@ class UserRead(schemas.BaseUser[PydanticObjectId]):
         WARNING: You must also modify the same lines in the
         UserCreate model below
     """
-    firstName: str
-    lastName: str
+    firstName: str = None
+    lastName: str = None
 
 
 class UserCreate(schemas.BaseUserCreate):
@@ -34,5 +34,5 @@ class UserUpdate(schemas.BaseUserUpdate):
         Dedicated to user profile update, which adds an optional password field;
         This class Extends/Inherits the User class
     """
-    firstName: str
-    lastName: str
+    firstName: str = None
+    lastName: str = None

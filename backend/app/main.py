@@ -1,7 +1,7 @@
 from beanie import init_beanie
 from app.schemas.Users import UserCreate, UserRead, UserUpdate
 from app.schemas.Todo import Todo
-from app.core.auth import auth_backend, current_active_user, fastapi_users
+from app.core.auth import auth_backend, current_active_user, fastapi_users, gitlab_oauth_client, github_oauth_client
 from app.database.users import User
 
 from pathlib import Path
@@ -27,9 +27,7 @@ app = FastAPI(
 async def on_startup():
     await init_beanie(
         database=db,
-        document_models=[
-            User, Todo
-        ],
+        document_models=[User, Todo],
     )
 
 
@@ -71,6 +69,28 @@ app.include_router(
     fastapi_users.get_verify_router(UserRead),
     prefix="/api/auth",
     tags=["auth"],
+)
+app.include_router(
+    fastapi_users.get_oauth_router(
+        gitlab_oauth_client,
+        auth_backend,
+        settings.auth_secret_key,
+        associate_by_email=False,
+        redirect_url='http://localhost:8000/api/auth/gitlab/callback'
+    ),
+    prefix="/api/auth/gitlab",
+    tags=["auth", "gitlab"],
+)
+app.include_router(
+    fastapi_users.get_oauth_router(
+        github_oauth_client,
+        auth_backend,
+        settings.auth_secret_key,
+        associate_by_email=False,
+        redirect_url='http://localhost:8000/api/auth/github/callback'
+    ),
+    prefix="/api/auth/github",
+    tags=["auth", "github"],
 )
 app.include_router(
     fastapi_users.get_users_router(UserRead, UserUpdate),
