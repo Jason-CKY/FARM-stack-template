@@ -3,7 +3,6 @@ import React from 'react';
 import { useForm } from '@mantine/form';
 import { TextInput, Paper, Group, PaperProps, Button, Stack, Checkbox } from '@mantine/core';
 import { CreateTodo } from '../api/TodoRoutes';
-import { ErrorType } from '../api/Error';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { showNotification } from '@mantine/notifications';
 
@@ -24,10 +23,10 @@ export function TodoForm({ paperProps }: ITodoForm) {
             await CreateTodo(title, description, completed);
         } catch (err) {
             // Handle errors thrown from backend
-            const error = err as ErrorType;
+            const error = err as Error;
             showNotification({
-                title: `${error.status} Failed to Create Todo`,
-                message: error.data.detail,
+                title: `${error.name} Failed to Create Todo`,
+                message: error.message,
                 color: 'red',
                 icon: <AiFillCloseCircle />
             });

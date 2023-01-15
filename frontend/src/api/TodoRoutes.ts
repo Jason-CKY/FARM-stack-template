@@ -1,3 +1,5 @@
+import { process_response } from './Base';
+
 export interface TodoInterface {
     id: string;
     title: string;
@@ -16,18 +18,7 @@ export const GetTodoList = async (): Promise<TodoInterface[]> => {
     });
     // Fetch request
     const response = await fetch(request);
-    // 500 error handling
-    if (response.status === 500) {
-        const error = { status: response.status, data: { detail: 'Internal Server Error' } };
-        throw error;
-    }
-    // 400 error handling
-    const data = await response.json();
-    if (response.status >= 400 && response.status < 500) {
-        const error = { status: response.status, data: data };
-        throw error;
-    }
-
+    const data = await process_response(response);
     return data;
 };
 
@@ -41,18 +32,7 @@ export const GetTodoListById = async (id: string): Promise<TodoInterface> => {
     });
     // Fetch request
     const response = await fetch(request);
-    // 500 error handling
-    if (response.status === 500) {
-        const error = { status: response.status, data: { detail: 'Internal Server Error' } };
-        throw error;
-    }
-    // 400 error handling
-    const data = await response.json();
-    if (response.status >= 400 && response.status < 500) {
-        const error = { status: response.status, data: data };
-        throw error;
-    }
-
+    const data = await process_response(response);
     return data;
 };
 
@@ -71,18 +51,7 @@ export const CreateTodo = async (title: string, description: string, completed?:
     });
     // Fetch request
     const response = await fetch(request);
-    // 500 error handling
-    if (response.status === 500) {
-        const error = { status: response.status, data: { detail: 'Internal Server Error' } };
-        throw error;
-    }
-    // 400 error handling
-    const data = await response.json();
-    if (response.status >= 400 && response.status < 500) {
-        const error = { status: response.status, data: data };
-        throw error;
-    }
-
+    const data = await process_response(response);
     return data;
 };
 
@@ -101,18 +70,7 @@ export const UpdateTodo = async (todo: TodoInterface): Promise<void> => {
     });
     // Fetch request
     const response = await fetch(request);
-    // 500 error handling
-    if (response.status === 500) {
-        const error = { status: response.status, data: { detail: 'Internal Server Error' } };
-        throw error;
-    }
-    // 400 error handling
-    const data = await response.json();
-    if (response.status >= 400 && response.status < 500) {
-        const error = { status: response.status, data: data };
-        throw error;
-    }
-
+    const data = await process_response(response);
     return data;
 };
 
@@ -126,17 +84,6 @@ export const DeleteTodo = async (id: string): Promise<void> => {
     });
     // Fetch request
     const response = await fetch(request);
-    // 500 error handling
-    if (response.status === 500) {
-        const error = { status: response.status, data: { detail: 'Internal Server Error' } };
-        throw error;
-    }
-    // 400 error handling
-    const data = await response.json();
-    if (response.status >= 400 && response.status < 500) {
-        const error = { status: response.status, data: data };
-        throw error;
-    }
-
+    const data = await process_response(response);
     return data;
 };

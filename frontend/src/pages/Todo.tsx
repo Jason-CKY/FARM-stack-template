@@ -8,7 +8,6 @@ import { MdOutlineCancel } from 'react-icons/md';
 
 import { TodoForm } from '../components/TodoForm';
 import { DeleteTodo, TodoInterface, UpdateTodo, GetTodoList } from '../api/TodoRoutes';
-import { ErrorType } from '../api/Error';
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -25,10 +24,11 @@ export function Todo(props: ITodoProps) {
             await DeleteTodo(id);
         } catch (err) {
             // Handle errors thrown from backend
-            const error = err as ErrorType;
+            const error = err as Error;
+            console.error(error);
             showNotification({
-                title: `${error.status} Failed to Create Todo`,
-                message: error.data.detail,
+                title: `${error.name} Failed to Delete Todo`,
+                message: error.message,
                 color: 'red',
                 icon: <AiFillCloseCircle />
             });
@@ -41,10 +41,10 @@ export function Todo(props: ITodoProps) {
             await UpdateTodo(todo);
         } catch (err) {
             // Handle errors thrown from backend
-            const error = err as ErrorType;
+            const error = err as Error;
             showNotification({
-                title: `${error.status} Failed to Create Todo`,
-                message: error.data.detail,
+                title: `${error.name} Failed to Create Todo`,
+                message: error.message,
                 color: 'red',
                 icon: <AiFillCloseCircle />
             });
