@@ -12,6 +12,7 @@ from app.core.database import client as mongodb_client
 from app.core.database import database as db
 from app.core.settings import settings
 from app.routers.todo import router as todo_router
+from app.routers.oauth import get_oauth_router
 
 app = FastAPI(
     title=settings.app_name,
@@ -71,9 +72,10 @@ app.include_router(
     tags=["auth"],
 )
 app.include_router(
-    fastapi_users.get_oauth_router(
+    get_oauth_router(
         gitlab_oauth_client,
         auth_backend,
+        fastapi_users.get_user_manager,
         settings.auth_secret_key,
         associate_by_email=False,
         redirect_url='http://localhost:3000/login'
@@ -82,9 +84,10 @@ app.include_router(
     tags=["auth", "gitlab"],
 )
 app.include_router(
-    fastapi_users.get_oauth_router(
+    get_oauth_router(
         github_oauth_client,
         auth_backend,
+        fastapi_users.get_user_manager,
         settings.auth_secret_key,
         associate_by_email=False,
         redirect_url='http://localhost:3000/login'

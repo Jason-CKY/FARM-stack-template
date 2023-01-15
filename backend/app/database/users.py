@@ -5,7 +5,7 @@ from fastapi_users.db import BeanieBaseUser, BeanieUserDatabase, BaseOAuthAccoun
 
 
 class OAuthAccount(BaseOAuthAccount):
-    pass
+    id_token: str = None
 
 
 class User(BeanieBaseUser[PydanticObjectId]):

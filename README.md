@@ -63,6 +63,8 @@ Run `make help` for the list of quick Make commands available. This template inc
 
 [FastAPI-Users](https://fastapi-users.github.io/fastapi-users/10.2/configuration/oauth/) OAuth Routers is used to connect to various oauth/openid providers. This template provides a Github and Gitlab OAuth logins but it is simple to extend this to other providers by adding the corresponding [client](./backend/app/core/auth.py) and [routers](./backend/app/main.py).
 
+This template overwrote the oauth routers to automatically set users that logged in via the `/oauth` endpoints as verified, and a default `id_token` key in `OAuthAccount` schema. This allows for `openid` support to store the JWT-Encoded `id_token` in the database.
+
 ### OAuth Endpoints
 
 FastAPI-Users exposes 2 endpoints for OAuth: `/authorize` and `/callback`. `GET /authorize` will return you the URL to redirect the user to the relevant provider for authentication. Set the redirect URI in the provider client settings to the `/callback` URL to generate the access token to login.
